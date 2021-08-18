@@ -54,9 +54,9 @@ const createInnerHTML = () => {
                 <td>${addressBookData._zip}</td>
                 <td>${addressBookData._phoneNumber}</td>
                 <td>
-                    <img id="${addressBookData.id}" onclick="remove(this)" src="../assets/images/delete.svg" alt="delete">
+                    <img id="${addressBookData.id}" onclick="remove(this)" src="file:///C:/Users/Lavanya/Desktop/AddressBookAppWorkshop/assets/Images/delete.svg" alt="delete">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <img id="${addressBookData.id}" onclick="update(this)" src="../assets/images/edit.svg" alt="edit">
+                    <img id="${addressBookData.id}" onclick="update(this)" src="file:///C:/Users/Lavanya/Desktop/AddressBookAppWorkshop/assets/Images/edit.svg" alt="edit">
                 </td>
             </tr>
             `;
@@ -69,9 +69,25 @@ const remove = (node) => {
     if (!addressBookData) return;
     const index = addressBookList.map(addressData => addressData.id).indexOf(addressBookData.id);
     addressBookList.splice(index, 1);
+    if (site_properties.use_local_storage.match("true")) {
     localStorage.setItem("AddressBookList", JSON.stringify(addressBookList));
     document.querySelector(".address-count").textContent = addressBookList.length;
     createInnerHTML();
+    }
+    else{
+        const deleteUrl = site_properties.server_url + addressBookData.id.toString()
+        console.log(deleteUrl);
+        makePromiseCall("DELETE", deleteUrl, false)
+        .then(
+            (responseText) =>
+            createInnerHtml()
+        )
+        .catch(
+            (error) =>{
+                console.log("Delete Error Status: "+JSON.stringify(error));
+            }
+        );
+    }
     location.reload();
 }
 

@@ -8,15 +8,6 @@
             "_city": "mangalore",
             "_state": "Karnataka",
             "_zip": "543871"
-        },
-        {
-            "id": 2,
-            "_name": "Mahesh",
-            "_phoneNumber": "91 8564328795",
-            "_address": "Gabdhi street",
-            "_city": "Kolanga",
-            "_state": "malaysiya",
-            "_zip": "543216"
         }
     ]
 } 
